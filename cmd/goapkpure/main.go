@@ -3,6 +3,7 @@ package main
 import (
     "flag"
     "fmt"
+    "github.com/adamyordan/goapkpure"
     "log"
     "strings"
 )
@@ -22,7 +23,7 @@ func main() {
     }
 
     if *versionsPtr {
-        verItems, err := GetVersions(*packagePtr)
+        verItems, err := goapkpure.GetVersions(*packagePtr)
         if err != nil {
             log.Fatalln(err)
         }
@@ -36,19 +37,19 @@ func main() {
         var dlLink string
         var err error
         if *versionPtr >= 0 {
-            verItems, err := GetVersions(*packagePtr)
+            verItems, err := goapkpure.GetVersions(*packagePtr)
             if err != nil {
                 log.Fatalln(err)
             }
             if *versionPtr >= len(verItems) {
                 log.Fatalln("version ID invalid")
             }
-            dlLink, err = GetDownloadDirectLink(verItems[*versionPtr].DownloadUrl)
+            dlLink, err = goapkpure.GetDownloadDirectLink(verItems[*versionPtr].DownloadUrl)
             if err != nil {
                 log.Fatalln(err)
             }
         } else {
-            dlLink, err = GetLatestDownloadLink(*packagePtr)
+            dlLink, err = goapkpure.GetLatestDownloadLink(*packagePtr)
             if err != nil {
                 log.Fatalln(err)
             }
@@ -61,7 +62,7 @@ func main() {
             if outputFile == "" {
                 outputFile = *packagePtr + ".apk"
             }
-            DownloadFile(dlLink, outputFile)
+            goapkpure.DownloadFile(dlLink, outputFile)
         }
     }
 }
