@@ -1,4 +1,4 @@
-module goapkpure
+module github.com/adamyordan/goapkpure
 
 go 1.13
 
