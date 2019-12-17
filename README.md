@@ -16,19 +16,31 @@ $ go get -u github.com/adamyordan/goapkpure/cmd/goapkpure
 ## CLI Usage
 
 See available command flags
+
 ```bash
 $ goapkpure -help
-Usage of /Users/user/go/bin/goapkpure:
+Usage of /var/folders/dc/m73797z93t7375d5_g6gcp7c0000gp/T/go-build004323388/b001/exe/main:
   -download
-    	Download APK from direct link. By default download latest version. Use -version to specify version ID
+    	Download APK from selected version. By default download latest version. Use -version or -versionName to specify version
+  -json
+    	Print information in JSON format.
   -output string
     	Download file output. (default: <packagename>.apk)
   -package string
     	Package name
   -version int
-    	Get direct link for a version index
+    	Select a version by index
+  -versionName string
+    	Select a version by version name. Get the first one if duplicate. if set, -version flag is ignored.
   -versions
     	List all available versions
+```
+
+Get download link for the latest version of a package
+
+```bash
+$ goapkpure -package com.whatsapp
+https://download.apkpure.com/b/apk/Y29tLndoYXRzYXBwXzQ1MzEyM182YTRlMDc2NQ?_fn=V2hhdHNBcHAgTWVzc2VuZ2VyX3YyLjE5LjM2MF9hcGtwdXJlLmNvbS5hcGs&k=497866b0794e1e139d6fba0a5fedb6685dfb194f&as=448d1d81d17dac5eca448573571149be5df876c7&_p=Y29tLndoYXRzYXBw&c=1%7CCOMMUNICATION%7CZGV2PVdoYXRzQXBwJTIwSW5jLiZ0PWFwayZzPTI3NjM4NDE3JnZuPTIuMTkuMzYwJnZjPTQ1MzEyMw&hot=1&w=1
 ```
 
 List available versions of a package
@@ -57,6 +69,57 @@ $ goapkpure -version 2 -download -output /tmp/whatsapp.apk -package com.whatsapp
 2019/12/11 19:30:55 Downloaded 7732756/27355917 (28.27%)
 2019/12/11 19:31:00 Downloaded 18759188/27355917 (68.57%)
 2019/12/11 19:31:05 Download completed in 37.101594676s
+```
+
+Get information of a specific version in JSON format
+```bash
+{
+    "Version": "2.19.352 (453110)",
+    "DownloadUrl": "https://apkpure.com/whatsapp-messenger/com.whatsapp/download/453110-APK?from=popup%2Fversion",
+    "Size": "26.4 MB",
+    "Tags": [
+        "APK"
+    ],
+    "Title": "WhatsApp",
+    "UpdateOn": "2019-12-05",
+    "Signature": "38a0f7d505fe18fec64fbf343ecaaaf310dbd799",
+    "Sha1": "c2ce0d82d09a6d6ac8f2d9d74d67d538fdd41c00",
+    "AndroidVer": "Android 4.0.3+ (Ice Cream Sandwich MR1, API 15)",
+    "Architectures": [
+        "armeabi-v7a"
+    ],
+    "ScreenDPI": "nodpi"
+}
+```
+
+Get list of versions in JSON format
+```bash
+$ go run cmd/goapkpure/main.go -package com.whatsapp -versions -json
+[
+    {
+        "Version": "2.19.360 (453123)",
+        "DownloadUrl": "https://apkpure.com/whatsapp-messenger/com.whatsapp/download/453123-APK?from=popup%2Fversion",
+        "Size": "26.4 MB",
+        "Tags": [
+            "APK"
+        ],
+        "Title": "WhatsApp",
+        "UpdateOn": "2019-12-10",
+        "Signature": "38a0f7d505fe18fec64fbf343ecaaaf310dbd799",
+        "Sha1": "da298299c164d2584c4fee96e205bae59e35593b",
+        "AndroidVer": "Android 4.0.3+ (Ice Cream Sandwich MR1, API 15)",
+        "Architectures": [
+            "arm64-v8a"
+        ],
+        "ScreenDPI": "nodpi"
+    },
+    {
+        "Version": "2.19.360 (453122)",
+        "DownloadUrl": "https://apkpure.com/whatsapp-messenger/com.whatsapp/download/453122-APK?from=popup%2Fversion",
+        "Size": "26.4 MB",
+        "Tags": [
+            "APK"
+    ...
 ```
 
 ## Import from a Go Project
